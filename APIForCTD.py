@@ -49,11 +49,4 @@ class GetInformationFromCtd:
         response_report_filtered_json=json.dumps(response_report_filtered)
         self.filtered_output_json=response_report_filtered_json
 
-CTD=GetInformationFromCtd('CTD')
-CTD.set_url_for_request()
-CTD.set_input_type(input_type='chem')
-CTD.set_input_terms_for_ctd(input_terms='mercury')
-CTD.set_report_parameters(report_parameter='genes_curated',format_to_report='json')
-print('CTD status code', CTD.resp_status_code)
-CTD.get_information_from_database()
-CTD.filter_response_on_organism(organism_to_select='Homo sapiens')
+
