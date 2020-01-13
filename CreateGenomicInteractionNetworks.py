@@ -2,6 +2,7 @@ import pandas as pd
 from APIforDiseaseGeneNet import GetInformationFromDiseaseGeneNet
 from APIforHumanProteinAtlas import GetInformationFromHumanProteinAtlas
 from APIForCTD import GetInformationFromCtd
+from GetCpgToGeneConnections import GetCpgToGeneConnections
 
 class CreateGenomicInteractionNetwork:
 
@@ -41,3 +42,7 @@ class CreateGenomicInteractionNetwork:
     def get_gene_gene_interactions(self):
 
     def get_cpg_gene_interactions(self):
+        retrieve_cpg_genes = GetCpgToGeneConnections()
+        path_to_database = 'E:\Project Envirogenomarkers\Data\Data for analysis\EGM_cpg_annotation.txt'
+        retrieve_cpg_genes.load_cpg_database(path_to_database=path_to_database, separator='\t')
+        retrieve_cpg_genes.extract_cpg_associated_with_gene(column_name_gene='UCSC_REFGENE_NAME',gene_of_interest=['ABCB5'])
