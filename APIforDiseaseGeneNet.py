@@ -1,5 +1,6 @@
 import requests
 import json
+import pandas as pd
 
 class GetInformationFromDiseaseGeneNet:
 
@@ -7,6 +8,8 @@ class GetInformationFromDiseaseGeneNet:
         self.database='DiseaseGeneNet'
         self.url='https://disgenet.org/api/gda/'
         self.resp_status_code = None
+        self.response_gene = None
+        self.disease_association_gene = None
 
     def check_data_base_connection(self):
         resp = requests.get(self.url)
@@ -37,3 +40,9 @@ class GetInformationFromDiseaseGeneNet:
             response_disease=requests.get(url_to_take)
         self.response_disease=response_disease
 
+    def format_information_to_gene_and_disease_only(self):
+        keys_of_interest=('gene_symbol','disease_name')
+        dictionary_from_json=self.response_gene.json()
+        dataframe_disease_gene=pd.DataFrame.from_dict(dictionary_from_json)
+        dataframe_disease_gene=dataframe_disease_gene.loc[:,keys_of_interest]
+        self.disease_association_gene=dataframe_disease_gene
