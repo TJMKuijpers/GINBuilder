@@ -19,7 +19,8 @@ class GetInformationFromCtd:
         self.report_parameter = None
         self.filtered_output_json = None
         self.compound_association_gene = None
-
+        self.compound_set_for_genes = None
+        self.gene_set = None
 
     def set_url_for_request(self):
         if self.database == 'CTD':
@@ -60,3 +61,11 @@ class GetInformationFromCtd:
         dataframe_compound_gene = pd.DataFrame.from_dict(dictionary_from_json)
         dataframe_compound_gene = dataframe_compound_gene.loc[:, keys_of_interest]
         self.compound_association_gene = dataframe_compound_gene
+
+    def set_gene_set(self,genes_of_interest):
+        self.gene_set=genes_of_interest
+
+    def filter_only_interesting_genes(self):
+        complete_compound_gene_set=self.compound_association_gene
+        compound_set_for_genes=complete_compound_gene_set.loc[complete_compound_gene_set['GeneSymbol'].isin(self.gene_set)]
+        self.compound_set_for_genes=compound_set_for_genes

@@ -25,7 +25,7 @@ class CreateGenomicInteractionNetwork:
     def set_compound_as_nodes(self,compounds_for_network):
         self.compound = compounds_for_network
 
-    def get_compound_gene_interactions(self,input_type_compound,input_terms_compound,report_only_parameter,format_of_report):
+    def get_compound_gene_interactions(self,genes_to_subset,input_type_compound,input_terms_compound,report_only_parameter,format_of_report):
         connection_to_ctd = GetInformationFromCtd('CTD')
         connection_to_ctd.set_url_for_request()
         connection_to_ctd.set_input_type(input_type=input_type_compound)
@@ -34,7 +34,9 @@ class CreateGenomicInteractionNetwork:
         connection_to_ctd.get_information_from_database()
         connection_to_ctd.filter_response_on_organism(organism_to_select='Homo sapiens')
         connection_to_ctd.format_json_to_dataframe()
-        self.compound_gene_interactions_report =connection_to_ctd.compound_association_gene
+        connection_to_ctd.set_gene_set(genes_to_subset)
+        connection_to_ctd.filter_only_interesting_genes()
+        self.compound_gene_interactions_report =connection_to_ctd.compound_set_for_genes
 
     def find_disease_associated_with_genes(self):
         connection_to_disgenenet = GetInformationFromDiseaseGeneNet()
@@ -63,9 +65,13 @@ class CreateGenomicInteractionNetwork:
         cpg_gene_network=self.cpg_gene_interactions.loc[:,['TargetID','UCSC_REFGENE_NAME','UCSC_REFGENE_GROUP']]
         self.cpg_gene_network=cpg_gene_network
 
+
+    def built_the_network(self):
+        print('undefined function')
+
 test=CreateGenomicInteractionNetwork()
-test.set_genes_as_nodes(genes_for_network=['ABCB5','VDAC3','RBL2'])
+test.set_genes_as_nodes(genes_for_network=['ABCB5','VDAC3','RBL2','BRCA1','PGR'])
 test.find_disease_associated_with_genes()
 test.get_cpg_gene_interactions()
 test.format_cpg_gene_interactions()
-test.get_compound_gene_interactions(input_type_compound='chem',input_terms_compound='C410127',report_only_parameter='genes_curated',format_of_report='json')
+test.get_compound_gene_interactions(genes_to_subset=test.genes,input_type_compound='chem',input_terms_compound='C410127',report_only_parameter='genes_curated',format_of_report='json')
