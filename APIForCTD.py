@@ -1,5 +1,7 @@
 import requests
 import json
+import pandas as pd
+
 
 class GetInformationFromCtd:
 
@@ -16,6 +18,8 @@ class GetInformationFromCtd:
         self.format_to_report = None
         self.report_parameter = None
         self.filtered_output_json = None
+        self.compound_association_gene = None
+
 
     def set_url_for_request(self):
         if self.database == 'CTD':
@@ -46,7 +50,13 @@ class GetInformationFromCtd:
         get_response_report=self.response.json()
         get_response_with_organism=[x for x in get_response_report if 'Organism' in x.keys()]
         response_report_filtered=[i for i in get_response_with_organism if i['Organism'] == organism_to_select]
-        response_report_filtered_json=json.dumps(response_report_filtered)
-        self.filtered_output_json=response_report_filtered_json
+        self.filtered_output_json=response_report_filtered
 
 
+    def format_json_to_dataframe(self):
+        keys_of_interest = ('ChemicalName','GeneSymbol')
+        print(type(self.filtered_output_json))
+        dictionary_from_json = self.filtered_output_json
+        dataframe_compound_gene = pd.DataFrame.from_dict(dictionary_from_json)
+        dataframe_compound_gene = dataframe_compound_gene.loc[:, keys_of_interest]
+        self.compound_association_gene = dataframe_compound_gene

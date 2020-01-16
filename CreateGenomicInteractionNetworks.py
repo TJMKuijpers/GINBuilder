@@ -14,6 +14,7 @@ class CreateGenomicInteractionNetwork:
         self.genomic_interaction_network = pd.DataFrame()
         self.cpg_gene_network = None
         self.genes_with_their_disease = None
+        self.compound_gene_interactions_report = None
 
     def set_genes_as_nodes(self,genes_for_network):
         self.genes = genes_for_network
@@ -30,15 +31,16 @@ class CreateGenomicInteractionNetwork:
         connection_to_ctd.set_input_type(input_type=input_type_compound)
         connection_to_ctd.set_input_terms_for_ctd(input_terms=input_terms_compound)
         connection_to_ctd.set_report_parameters(report_parameter=report_only_parameter, format_to_report=format_of_report)
-        print('CTD status code', CTD.resp_status_code)
         connection_to_ctd.get_information_from_database()
         connection_to_ctd.filter_response_on_organism(organism_to_select='Homo sapiens')
+        connection_to_ctd.format_json_to_dataframe()
+        self.compound_gene_interactions_report =connection_to_ctd.compound_association_gene
 
     def find_disease_associated_with_genes(self):
         connection_to_disgenenet = GetInformationFromDiseaseGeneNet()
         connection_to_disgenenet.get_gene_information(gene_of_interest = self.genes)
         connection_to_disgenenet.format_information_to_gene_and_disease_only()
-        self.genes_with_their_disease = connection_to_disgenenet.response_gene
+        self.genes_with_their_disease = connection_to_disgenenet.disease_association_gene
 
     def find_genes_associated_with_disease(self):
         connect_to_disgenenet = GetInformationFromDiseaseGeneNet()
@@ -66,3 +68,4 @@ test.set_genes_as_nodes(genes_for_network=['ABCB5','VDAC3','RBL2'])
 test.find_disease_associated_with_genes()
 test.get_cpg_gene_interactions()
 test.format_cpg_gene_interactions()
+test.get_compound_gene_interactions(input_type_compound='chem',input_terms_compound='C410127',report_only_parameter='genes_curated',format_of_report='json')
