@@ -15,6 +15,7 @@ class CreateGenomicInteractionNetwork:
         self.cpg_gene_network = None
         self.genes_with_their_disease = None
         self.compound_gene_interactions_report = None
+        self.network_data_frame = None
 
     def set_genes_as_nodes(self,genes_for_network):
         self.genes = genes_for_network
@@ -65,9 +66,17 @@ class CreateGenomicInteractionNetwork:
         cpg_gene_network=self.cpg_gene_interactions.loc[:,['TargetID','UCSC_REFGENE_NAME','UCSC_REFGENE_GROUP']]
         self.cpg_gene_network=cpg_gene_network
 
+    def set_column_names_on_data_frame(self,data_frame,column_names_to_set):
+        data_frame.columns=column_names_to_set
+        return data_frame
 
     def built_the_network(self):
-        print('undefined function')
+        column_name_pattern=['Interactor A','Interactor B','Type']
+        cpg_gene_data_frame=self.set_column_names_on_data_frame(self.cpg_gene_network,column_names_to_set=column_name_pattern)
+        gene_compound_data_frame=self.set_column_names_on_data_frame(self.compound_gene_interactions_report,column_names_to_set=column_name_pattern)
+        disease_gene_data_frame=self.set_column_names_on_data_frame(self.genes_with_their_disease,column_names_to_set=column_name_pattern)
+        network_data_frame=pd.concat([cpg_gene_data_frame,disease_gene_data_frame,gene_compound_data_frame],axis=0)
+        self.network_data_frame = network_data_frame
 
 test=CreateGenomicInteractionNetwork()
 test.set_genes_as_nodes(genes_for_network=['ABCB5','VDAC3','RBL2','BRCA1','PGR'])
@@ -75,3 +84,4 @@ test.find_disease_associated_with_genes()
 test.get_cpg_gene_interactions()
 test.format_cpg_gene_interactions()
 test.get_compound_gene_interactions(genes_to_subset=test.genes,input_type_compound='chem',input_terms_compound='C410127',report_only_parameter='genes_curated',format_of_report='json')
+test.built_the_network()
