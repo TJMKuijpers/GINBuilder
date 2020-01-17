@@ -3,6 +3,8 @@ from APIforDiseaseGeneNet import GetInformationFromDiseaseGeneNet
 from APIforHumanProteinAtlas import GetInformationFromHumanProteinAtlas
 from APIForCTD import GetInformationFromCtd
 from GetCpgToGeneConnections import GetCpgToGeneConnections
+import networkx as nx
+
 
 class CreateGenomicInteractionNetwork:
 
@@ -78,6 +80,12 @@ class CreateGenomicInteractionNetwork:
         network_data_frame=pd.concat([cpg_gene_data_frame,disease_gene_data_frame,gene_compound_data_frame],axis=0)
         self.network_data_frame = network_data_frame
 
+    def visualize_the_network(self):
+        Graph=nx.from_pandas_edgelist(df=self.network_data_frame,source='Interactor A',target='Interactor B', edge_attr='Type')
+        pos = nx.spring_layout(Graph)
+        nx.draw(Graph)
+
+
 test=CreateGenomicInteractionNetwork()
 test.set_genes_as_nodes(genes_for_network=['ABCB5','VDAC3','RBL2','BRCA1','PGR'])
 test.find_disease_associated_with_genes()
@@ -85,3 +93,4 @@ test.get_cpg_gene_interactions()
 test.format_cpg_gene_interactions()
 test.get_compound_gene_interactions(genes_to_subset=test.genes,input_type_compound='chem',input_terms_compound='C410127',report_only_parameter='genes_curated',format_of_report='json')
 test.built_the_network()
+test.visualize_the_network()
