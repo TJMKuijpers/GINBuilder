@@ -34,15 +34,19 @@ class GetInformationFromDiseaseGeneNet:
             seperation_pattern = '%2C'
             disease_pattern_in_url=seperation_pattern.join(disease_of_interest)
             url_to_take=self.url+'disease/'+disease_pattern_in_url+'?source=CURATED'
-            response_disease=requests.get(url_to_take)
+            response_disease = requests.get(url_to_take)
         else:
-            url_to_take=self.url+'disease/'+disease_of_interest+'?source=CURATED'
-            response_disease=requests.get(url_to_take)
-        self.response_disease=response_disease
+            url_to_take = self.url+'disease/'+disease_of_interest+'?source=CURATED'
+            response_disease = requests.get(url_to_take)
+        self.response_disease = response_disease
 
     def format_information_to_gene_and_disease_only(self):
-        keys_of_interest=('gene_symbol','disease_name')
-        dictionary_from_json=self.response_gene.json()
-        dataframe_disease_gene=pd.DataFrame.from_dict(dictionary_from_json)
-        dataframe_disease_gene=dataframe_disease_gene.loc[:,keys_of_interest]
-        self.disease_association_gene=dataframe_disease_gene
+        keys_of_interest = ('gene_symbol','disease_name')
+        dictionary_from_json = self.response_gene.json()
+        dataframe_disease_gene = pd.DataFrame.from_dict(dictionary_from_json)
+        dataframe_disease_gene = dataframe_disease_gene.loc[:,keys_of_interest]
+        type_interaction_disease = pd.DataFrame({'Type':['Gene-Disease' for x in range(dataframe_disease_gene.shape[0])]})
+        dataframe_disease_gene.reset_index(drop=True, inplace=True)
+        type_interaction_disease.reset_index(drop=True, inplace=True)
+        disease_association_gene_df = pd.concat([dataframe_disease_gene,type_interaction_disease],axis=1)
+        self.disease_association_gene = disease_association_gene_df

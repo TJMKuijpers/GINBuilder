@@ -3,6 +3,8 @@ from APIforDiseaseGeneNet import GetInformationFromDiseaseGeneNet
 from APIforHumanProteinAtlas import GetInformationFromHumanProteinAtlas
 from APIForCTD import GetInformationFromCtd
 from GetCpgToGeneConnections import GetCpgToGeneConnections
+import networkx as nx
+
 
 class CreateGenomicInteractionNetwork:
 
@@ -15,6 +17,7 @@ class CreateGenomicInteractionNetwork:
         self.cpg_gene_network = None
         self.genes_with_their_disease = None
         self.compound_gene_interactions_report = None
+        self.network_data_frame = None
 
     def set_genes_as_nodes(self,genes_for_network):
         self.genes = genes_for_network
@@ -25,7 +28,7 @@ class CreateGenomicInteractionNetwork:
     def set_compound_as_nodes(self,compounds_for_network):
         self.compound = compounds_for_network
 
-    def get_compound_gene_interactions(self,input_type_compound,input_terms_compound,report_only_parameter,format_of_report):
+    def get_compound_gene_interactions(self,genes_to_subset,input_type_compound,input_terms_compound,report_only_parameter,format_of_report):
         connection_to_ctd = GetInformationFromCtd('CTD')
         connection_to_ctd.set_url_for_request()
         connection_to_ctd.set_input_type(input_type=input_type_compound)
@@ -34,7 +37,9 @@ class CreateGenomicInteractionNetwork:
         connection_to_ctd.get_information_from_database()
         connection_to_ctd.filter_response_on_organism(organism_to_select='Homo sapiens')
         connection_to_ctd.format_json_to_dataframe()
-        self.compound_gene_interactions_report =connection_to_ctd.compound_association_gene
+        connection_to_ctd.set_gene_set(genes_to_subset)
+        connection_to_ctd.filter_only_interesting_genes()
+        self.compound_gene_interactions_report =connection_to_ctd.compound_set_for_genes
 
     def find_disease_associated_with_genes(self):
         connection_to_disgenenet = GetInformationFromDiseaseGeneNet()
@@ -63,9 +68,29 @@ class CreateGenomicInteractionNetwork:
         cpg_gene_network=self.cpg_gene_interactions.loc[:,['TargetID','UCSC_REFGENE_NAME','UCSC_REFGENE_GROUP']]
         self.cpg_gene_network=cpg_gene_network
 
+    def set_column_names_on_data_frame(self,data_frame,column_names_to_set):
+        data_frame.columns=column_names_to_set
+        return data_frame
+
+    def built_the_network(self):
+        column_name_pattern=['Interactor A','Interactor B','Type']
+        cpg_gene_data_frame=self.set_column_names_on_data_frame(self.cpg_gene_network,column_names_to_set=column_name_pattern)
+        gene_compound_data_frame=self.set_column_names_on_data_frame(self.compound_gene_interactions_report,column_names_to_set=column_name_pattern)
+        disease_gene_data_frame=self.set_column_names_on_data_frame(self.genes_with_their_disease,column_names_to_set=column_name_pattern)
+        network_data_frame=pd.concat([cpg_gene_data_frame,disease_gene_data_frame,gene_compound_data_frame],axis=0)
+        self.network_data_frame = network_data_frame
+
+    def visualize_the_network(self):
+        Graph=nx.from_pandas_edgelist(df=self.network_data_frame,source='Interactor A',target='Interactor B', edge_attr='Type')
+        pos = nx.spring_layout(Graph)
+        nx.draw(Graph)
+
+
 test=CreateGenomicInteractionNetwork()
-test.set_genes_as_nodes(genes_for_network=['ABCB5','VDAC3','RBL2'])
+test.set_genes_as_nodes(genes_for_network=['ABCB5','VDAC3','RBL2','BRCA1','PGR'])
 test.find_disease_associated_with_genes()
 test.get_cpg_gene_interactions()
 test.format_cpg_gene_interactions()
-test.get_compound_gene_interactions(input_type_compound='chem',input_terms_compound='C410127',report_only_parameter='genes_curated',format_of_report='json')
+test.get_compound_gene_interactions(genes_to_subset=test.genes,input_type_compound='chem',input_terms_compound='C410127',report_only_parameter='genes_curated',format_of_report='json')
+test.built_the_network()
+test.visualize_the_network()
