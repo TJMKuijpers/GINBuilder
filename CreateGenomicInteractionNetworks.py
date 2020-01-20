@@ -4,7 +4,7 @@ from APIforHumanProteinAtlas import GetInformationFromHumanProteinAtlas
 from APIForCTD import GetInformationFromCtd
 from GetCpgToGeneConnections import GetCpgToGeneConnections
 import networkx as nx
-
+from APIforOmniPathDB import GetInformationFromOmniPathDB
 
 class CreateGenomicInteractionNetwork:
 
@@ -18,6 +18,7 @@ class CreateGenomicInteractionNetwork:
         self.genes_with_their_disease = None
         self.compound_gene_interactions_report = None
         self.network_data_frame = None
+        self.gene_gene_molecular_interactions = None
 
     def set_genes_as_nodes(self,genes_for_network):
         self.genes = genes_for_network
@@ -52,7 +53,15 @@ class CreateGenomicInteractionNetwork:
         connect_to_disgenenet.disease_information(disease_of_interest='C0002395')
 
     def get_gene_gene_interactions(self):
-        print('undefined function')
+        gene_gene_interacts = GetInformationFromOmniPathDB()
+        gene_gene_interacts.check_data_base_connection()
+        gene_gene_interacts.set_search_for_interactions()
+        gene_gene_interacts.set_type_of_gene_symbol()
+        gene_gene_interacts.set_the_format('json')
+        gene_gene_interacts.set_genes_to_search(self.genes)
+        gene_gene_interacts.retrieve_molecular_interaction_network()
+        gene_gene_interacts.convert_json_to_data_frame()
+        self.gene_gene_molecular_interactions = gene_gene_interacts.results_df
 
     def get_cpg_gene_interactions(self):
         retrieve_cpg_genes = GetCpgToGeneConnections()
@@ -92,5 +101,6 @@ test.find_disease_associated_with_genes()
 test.get_cpg_gene_interactions()
 test.format_cpg_gene_interactions()
 test.get_compound_gene_interactions(genes_to_subset=test.genes,input_type_compound='chem',input_terms_compound='C410127',report_only_parameter='genes_curated',format_of_report='json')
+test.get_gene_gene_interactions()
 test.built_the_network()
 test.visualize_the_network()
