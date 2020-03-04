@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="84ff61ba-e17b-465f-bb2b-2fe69a173e21" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/mapTranscriptionFactors.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CreateGenomicInteractionNetworks.py" beforeDir="false" afterPath="$PROJECT_DIR$/CreateGenomicInteractionNetworks.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FilterGeneGeneInteractions.py" beforeDir="false" afterPath="$PROJECT_DIR$/FilterGeneGeneInteractions.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/GetCpgToGeneConnections.py" beforeDir="false" afterPath="$PROJECT_DIR$/GetCpgToGeneConnections.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/genomicInteractionNetworks_CCLE.py" beforeDir="false" afterPath="$PROJECT_DIR$/genomicInteractionNetworks_CCLE.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mapTranscriptionFactors.py" beforeDir="false" afterPath="$PROJECT_DIR$/mapTranscriptionFactors.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
