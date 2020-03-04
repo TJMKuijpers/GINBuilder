@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="84ff61ba-e17b-465f-bb2b-2fe69a173e21" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/mapTranscriptionFactors.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CreateGenomicInteractionNetworks.py" beforeDir="false" afterPath="$PROJECT_DIR$/CreateGenomicInteractionNetworks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FilterGeneGeneInteractions.py" beforeDir="false" afterPath="$PROJECT_DIR$/FilterGeneGeneInteractions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GetCpgToGeneConnections.py" beforeDir="false" afterPath="$PROJECT_DIR$/GetCpgToGeneConnections.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,53 +32,17 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="E:/CCLE manusscript/Data/Estimate the number of k/main_CCLE.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PythonMultiNMF/main_EGM_data_reduction.py" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.CreateGenomicInteractionNetworks">
-    <configuration name="APIForCTD" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="NetworkSearchDatabase" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/APIForCTD.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="APIforGeneMania" type="PythonConfigurationType" factoryName="Python" temporary="true">
+  <component name="RunManager" selected="Python.genomicInteractionNetworks_CCLE">
+    <configuration name="CreateGenomicInteractionNetworks" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="NetworkSearchDatabase" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/APIforGeneMania.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="true" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="CreateGenomicInteractionNetworks" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="NetworkSearchDatabase" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -111,6 +78,24 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="genomicInteractionNetworks_CCLE" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="NetworkSearchDatabase" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/genomicInteractionNetworks_CCLE.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="main_CCLE" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="NetworkSearchDatabase" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -132,13 +117,34 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="main_EGM_data_reduction" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="NetworkSearchDatabase" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../PythonMultiNMF" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../PythonMultiNMF/main_EGM_data_reduction.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.CreateGenomicInteractionNetworks" />
-        <item itemvalue="Python.CreateGenomicInteractionNetworks" />
-        <item itemvalue="Python.CreateGenomicInteractionNetworks" />
-        <item itemvalue="Python.CreateGenomicInteractionNetworks" />
-        <item itemvalue="Python.CreateGenomicInteractionNetworks" />
+        <item itemvalue="Python.genomicInteractionNetworks_CCLE" />
+        <item itemvalue="Python.genomicInteractionNetworks_CCLE" />
+        <item itemvalue="Python.genomicInteractionNetworks_CCLE" />
+        <item itemvalue="Python.genomicInteractionNetworks_CCLE" />
+        <item itemvalue="Python.genomicInteractionNetworks_CCLE" />
       </list>
     </recent_temporary>
   </component>
@@ -185,37 +191,41 @@
       <screen x="0" y="0" width="1920" height="1170" />
     </state>
     <state x="92" y="92" width="1736" height="986" key="DiffContextDialog/0.0.1920.1170/1920.0.1920.1050@0.0.1920.1170" timestamp="1579180625051" />
-    <state x="739" y="338" key="FileChooserDialogImpl" timestamp="1578920844329">
+    <state x="739" y="338" key="FileChooserDialogImpl" timestamp="1582190966884">
       <screen x="0" y="0" width="1920" height="1170" />
     </state>
     <state x="739" y="338" key="FileChooserDialogImpl/0.0.1920.1170/1920.0.1280.689@0.0.1920.1170" timestamp="1576493163725" />
-    <state x="739" y="338" key="FileChooserDialogImpl/0.0.1920.1170/1920.0.1920.1050@0.0.1920.1170" timestamp="1578920844329" />
-    <state width="1899" height="270" key="GridCell.Tab.0.bottom" timestamp="1576599562937">
+    <state x="739" y="338" key="FileChooserDialogImpl/0.0.1920.1170/1920.0.1920.1050@0.0.1920.1170" timestamp="1582190966884" />
+    <state width="1336" height="170" key="GridCell.Tab.0.bottom" timestamp="1580460584582">
       <screen x="0" y="0" width="1920" height="1170" />
     </state>
     <state width="1899" height="270" key="GridCell.Tab.0.bottom/0.0.1920.1170/1920.0.1280.689@0.0.1920.1170" timestamp="1576599562937" />
-    <state width="1899" height="270" key="GridCell.Tab.0.center" timestamp="1576599562935">
+    <state width="1336" height="170" key="GridCell.Tab.0.bottom/0.0.1920.1170/1920.0.1920.1050@0.0.1920.1170" timestamp="1580460584582" />
+    <state width="1336" height="170" key="GridCell.Tab.0.center" timestamp="1580460584582">
       <screen x="0" y="0" width="1920" height="1170" />
     </state>
     <state width="1899" height="270" key="GridCell.Tab.0.center/0.0.1920.1170/1920.0.1280.689@0.0.1920.1170" timestamp="1576599562935" />
-    <state width="1899" height="270" key="GridCell.Tab.0.left" timestamp="1576599562929">
+    <state width="1336" height="170" key="GridCell.Tab.0.center/0.0.1920.1170/1920.0.1920.1050@0.0.1920.1170" timestamp="1580460584582" />
+    <state width="1336" height="170" key="GridCell.Tab.0.left" timestamp="1580460584582">
       <screen x="0" y="0" width="1920" height="1170" />
     </state>
     <state width="1899" height="270" key="GridCell.Tab.0.left/0.0.1920.1170/1920.0.1280.689@0.0.1920.1170" timestamp="1576599562929" />
-    <state width="1899" height="270" key="GridCell.Tab.0.right" timestamp="1576599562935">
+    <state width="1336" height="170" key="GridCell.Tab.0.left/0.0.1920.1170/1920.0.1920.1050@0.0.1920.1170" timestamp="1580460584582" />
+    <state width="1336" height="170" key="GridCell.Tab.0.right" timestamp="1580460584582">
       <screen x="0" y="0" width="1920" height="1170" />
     </state>
     <state width="1899" height="270" key="GridCell.Tab.0.right/0.0.1920.1170/1920.0.1280.689@0.0.1920.1170" timestamp="1576599562935" />
-    <state x="461" y="226" key="SettingsEditor" timestamp="1579249617968">
+    <state width="1336" height="170" key="GridCell.Tab.0.right/0.0.1920.1170/1920.0.1920.1050@0.0.1920.1170" timestamp="1580460584582" />
+    <state x="461" y="226" key="SettingsEditor" timestamp="1582017288996">
       <screen x="0" y="0" width="1920" height="1170" />
     </state>
     <state x="461" y="226" key="SettingsEditor/0.0.1920.1170/1920.0.1280.689@0.0.1920.1170" timestamp="1576493218218" />
-    <state x="461" y="226" key="SettingsEditor/0.0.1920.1170/1920.0.1920.1050@0.0.1920.1170" timestamp="1579249617968" />
-    <state x="656" y="408" key="com.intellij.ide.util.TipDialog" timestamp="1579246302658">
+    <state x="461" y="226" key="SettingsEditor/0.0.1920.1170/1920.0.1920.1050@0.0.1920.1170" timestamp="1582017288996" />
+    <state x="656" y="408" key="com.intellij.ide.util.TipDialog" timestamp="1582189969814">
       <screen x="0" y="0" width="1920" height="1170" />
     </state>
     <state x="656" y="407" key="com.intellij.ide.util.TipDialog/0.0.1920.1170/1920.0.1280.689@0.0.1920.1170" timestamp="1576501283412" />
     <state x="2357" y="240" key="com.intellij.ide.util.TipDialog/0.0.1920.1170/1920.0.1280.689@1920.0.1280.689" timestamp="1576655344548" />
-    <state x="656" y="408" key="com.intellij.ide.util.TipDialog/0.0.1920.1170/1920.0.1920.1050@0.0.1920.1170" timestamp="1579246302658" />
+    <state x="656" y="408" key="com.intellij.ide.util.TipDialog/0.0.1920.1170/1920.0.1920.1050@0.0.1920.1170" timestamp="1582189969814" />
   </component>
 </project>

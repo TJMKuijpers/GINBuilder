@@ -24,8 +24,12 @@ class FilterGeneGeneInteractions:
     def extract_nodes_from_network_df(self):
         if self.intermediate_nodes_allowed:
             print('intermediate nodes are allowed')
+            filtered_network_source_nodes_filtered=self.network.loc[self.network['source_genesymbol'].isin(self.nodes),:]
+            print('check if the new target nodes are a source node for feature genes')
+
         else:
             # intermediate nodes are not allowed therefore source and target should be in gene list
             filtered_network_source_nodes_filtered=self.network.loc[self.network['source_genesymbol'].isin(self.nodes),:]
             filtered_network_target_nodes_filtered=filtered_network_source_nodes_filtered.loc[filtered_network_source_nodes_filtered['target_genesymbol'].isin(self.nodes),:]
             self.network_filtered = filtered_network_target_nodes_filtered
+
