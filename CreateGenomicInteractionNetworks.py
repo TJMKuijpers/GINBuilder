@@ -6,8 +6,6 @@ from GetCpgToGeneConnections import GetCpgToGeneConnections
 import networkx as nx
 from APIforOmniPathDB import GetInformationFromOmniPathDB
 
-
-
 class CreateGenomicInteractionNetwork:
 
     def __index__(self):
@@ -48,6 +46,7 @@ class CreateGenomicInteractionNetwork:
     def get_transcription_factor_regulation(self):
         tf_library=mapTranscriptionFactors()
         self.transcription_regulation=output
+
     def find_disease_associated_with_genes(self):
         connection_to_disgenenet = GetInformationFromDiseaseGeneNet()
         connection_to_disgenenet.get_gene_information(gene_of_interest = self.genes)

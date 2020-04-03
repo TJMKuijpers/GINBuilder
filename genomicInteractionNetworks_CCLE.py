@@ -3,8 +3,8 @@ from CreateGenomicInteractionNetworks import CreateGenomicInteractionNetwork
 from FilterGeneGeneInteractions import FilterGeneGeneInteractions
 from mapTranscriptionFactors import mapTranscriptionFactors
 
-path_to_gene_symbols="E:/CCLE manusscript/Data/Cluster results/Results used for paper/Network cluster 7  lymphoid neoplasms/Cytoscape network/GeneSymbolsForInteractionNetworkCluster7.txt"
-gene_symbols=pd.read_csv(path_to_gene_symbols,sep='\t')
+path_to_gene_symbols="E:/CCLE manusscript/Data/Cluster results/Results used for paper/Network cluster 7  lymphoid neoplasms/Cytoscape network/GeneSymbolsForInteractionNetworkCluster7.csv"
+gene_symbols=pd.read_csv(path_to_gene_symbols,sep=',')
 gene_symbols= gene_symbols.rename(columns={'Gene':'genes'})
 gene_symbols=list(gene_symbols.genes)
 cluster7_interaction_network=CreateGenomicInteractionNetwork()
@@ -21,3 +21,5 @@ filtered_gene_gene_interactions.extract_nodes_from_network_df()
 tf_interactions=mapTranscriptionFactors()
 tf_interactions.read_transcription_library(path_to_tf='E:/GIT repos/NetworkSearchDatabase/transcription_catalogue.txt',separator='\t',encoding_arg='unicode_escape')
 tf_interactions.get_tf_interactions_with_genes(gene_symbols)
+
+
