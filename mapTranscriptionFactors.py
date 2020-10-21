@@ -15,4 +15,5 @@ class mapTranscriptionFactors:
         tf_step_source_subset=self.tf_library.loc[self.tf_library.TF.isin(genes),:]
         print(tf_step_source_subset)
         tf_step_target_subset=tf_step_source_subset.loc[tf_step_source_subset.target_gene.isin(genes),:]
+        tf_step_target_subset=tf_step_target_subset.loc[:,["TF","target_gene","regulation"]]
         self.tf_interactions=tf_step_target_subset

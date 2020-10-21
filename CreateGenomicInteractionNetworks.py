@@ -5,10 +5,13 @@ from APIForCTD import GetInformationFromCtd
 from GetCpgToGeneConnections import GetCpgToGeneConnections
 import networkx as nx
 from APIforOmniPathDB import GetInformationFromOmniPathDB
+from mapTranscriptionFactors import mapTranscriptionFactors
+from FilterGeneGeneInteractions import FilterGeneGeneInteractions
+
 
 class CreateGenomicInteractionNetwork:
 
-    def __index__(self):
+    def __init__(self):
         self.class_of_network = 'GenomicInteractionNetwork'
         self.genes = None
         self.cpg_sites = None
@@ -43,9 +46,11 @@ class CreateGenomicInteractionNetwork:
         connection_to_ctd.filter_only_interesting_genes()
         self.compound_gene_interactions_report =connection_to_ctd.compound_set_for_genes
 
-    def get_transcription_factor_regulation(self):
-        tf_library=mapTranscriptionFactors()
-        self.transcription_regulation=output
+    def get_transcription_factor_regulation(self,pathToTFlib=None,sepa=None,encoding=None,genes=None):
+        TFinteractions=mapTranscriptionFactors()
+        TFinteractions.read_transcription_library(path_to_tf=pathToTFlib,separator=sepa,encoding_arg=encoding)
+        TFinteractions.get_tf_interactions_with_genes(genes)
+        self.transcription_regulation=TFinteractions.tf_interactions
 
     def find_disease_associated_with_genes(self):
         connection_to_disgenenet = GetInformationFromDiseaseGeneNet()
@@ -66,7 +71,12 @@ class CreateGenomicInteractionNetwork:
         gene_gene_interacts.set_genes_to_search(self.genes)
         gene_gene_interacts.retrieve_molecular_interaction_network()
         gene_gene_interacts.convert_json_to_data_frame()
-        self.gene_gene_molecular_interactions = gene_gene_interacts.results_df
+        filtered_gene_gene_interactions = FilterGeneGeneInteractions()
+        filtered_gene_gene_interactions.set_gene_gene_information(gene_gene_interacts.results_df)
+        filtered_gene_gene_interactions.set_nodes_to_include(self.genes)
+        filtered_gene_gene_interactions.extract_nodes_from_network_df()
+        retrieve_data_frame=self.gene_gene_molecular_interactions
+        self.gene_gene_molecular_interactions = retrieve_data_frame.append(filtered_gene_gene_interactions.network_filtered)
 
     def get_cpg_gene_interactions(self,option='SearchInDataBase',genelist=None):
         if option=='SearchInDataBase':
@@ -81,6 +91,12 @@ class CreateGenomicInteractionNetwork:
             self.cpg_gene_interactions=retrieve_cpg_genes.cpgs_connected_to_genes
             self.cpg_gene_network=retrieve_cpg_genes.cpgs_connected_to_genes
 
+    def format_compound_to_cpg_interactions(self):
+        geneslinkedtocpgdata=self.compound_gene_interactions_report['GeneSymbol']
+        geneslinkedtocpg=geneslinkedtocpgdata
+        self.compound_gene_interactions_report['GeneSymbol'] = geneslinkedtocpg
+
+
     def format_gene_gene_interactions(self):
         print('undefined function')
 
@@ -92,16 +108,19 @@ class CreateGenomicInteractionNetwork:
         data_frame.columns=column_names_to_set
         return data_frame
 
-    def format_gene_gene_networks(self,gene_network):
-        self.gene_gene_molecular_interactions_df = gene_network.loc[:,['source_genesymbol','target_genesymbol','is_stimulation']]
+    def format_gene_gene_networks(self):
+        self.gene_gene_molecular_interactions_df = self.gene_gene_molecular_interactions.loc[:,['source_genesymbol','target_genesymbol','is_stimulation']]
 
     def built_the_network(self):
         column_name_pattern=['Interactor A','Interactor B','Type']
         cpg_gene_data_frame=self.set_column_names_on_data_frame(self.cpg_gene_network,column_names_to_set=column_name_pattern)
         gene_compound_data_frame=self.set_column_names_on_data_frame(self.compound_gene_interactions_report,column_names_to_set=column_name_pattern)
-        disease_gene_data_frame=self.set_column_names_on_data_frame(self.genes_with_their_disease,column_names_to_set=column_name_pattern)
+        transciptionfactors=self.set_column_names_on_data_frame(self.transcription_regulation,column_names_to_set=column_name_pattern)
+        #disease_gene_data_frame=self.set_column_names_on_data_frame(self.genes_with_their_disease,column_names_to_set=column_name_pattern)
         gene_gene_data_frame=self.set_column_names_on_data_frame(self.gene_gene_molecular_interactions_df,column_names_to_set=column_name_pattern)
-        network_data_frame=pd.concat([gene_gene_data_frame,disease_gene_data_frame,gene_compound_data_frame,cpg_gene_data_frame],axis=0)
+        #network_data_frame=pd.concat([transciptionfactors,gene_compound_data_frame,cpg_gene_data_frame],axis=0)
+        network_data_frame=pd.concat([gene_gene_data_frame,transciptionfactors,gene_compound_data_frame,cpg_gene_data_frame],axis=0)
+        #network_data_frame = pd.concat([gene_gene_data_frame, transciptionfactors, cpg_gene_data_frame], axis=0)
         self.network_data_frame = network_data_frame
 
     def visualize_the_network(self):

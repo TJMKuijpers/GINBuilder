@@ -21,7 +21,7 @@ class GetCpgToGeneConnections:
         cpg_sites=[]
         interaction_type=[]
         for x in list_with_genes:
-            cpg_sites.append("CpG")
+            cpg_sites.append("CpG "+str(x))
             interaction_type.append("Gene-CpG")
         Gene_CPG_df=pd.DataFrame({"Genes":list_with_genes,"CpG":cpg_sites,"Type":interaction_type})
         self.cpgs_connected_to_genes=Gene_CPG_df

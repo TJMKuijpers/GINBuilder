@@ -42,6 +42,7 @@ class GetInformationFromCtd:
 
     def get_information_from_database(self):
         self.url_to_retrieve = self.url + '?inputType=' + self.input_type + '&inputTerms=' + self.input_terms + '&report='+self.report_parameter+'&format='+self.format_to_report
+        print(self.url_to_retrieve)
         response=requests.get(self.url_to_retrieve)
         if response.status_code == 200:
             print('request is successful')

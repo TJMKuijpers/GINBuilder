@@ -45,6 +45,7 @@ class GetInformationFromOmniPathDB:
         self.search_results = results_of_search
 
     def convert_json_to_data_frame(self):
+        print(self.search_results)
         results_df_style = pd.DataFrame.from_dict(self.search_results.json())
         self.results_df = results_df_style
 
