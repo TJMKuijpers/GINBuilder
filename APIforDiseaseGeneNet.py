@@ -4,12 +4,15 @@ import pandas as pd
 
 class GetInformationFromDiseaseGeneNet:
 
-    def __init__(self):
+    def __init__(self,account,password):
         self.database='DiseaseGeneNet'
-        self.url='https://disgenet.org/api/gda/'
+        self.url='https://www.disgenet.org/api'
         self.resp_status_code = None
         self.response_gene = None
         self.disease_association_gene = None
+        self.account = account
+        self.password = password
+        self.session = None
 
     def check_data_base_connection(self):
         session=requests.Session()
@@ -18,12 +21,13 @@ class GetInformationFromDiseaseGeneNet:
             if response.status_code == 200:
                 json_response=response.json()
                 self.api_key = json_response.get('token')
+                self.session=session
             else:
                 print(response.status_code)
                 print(response.text)
         except requests.exceptions.RequestException as req_ex:
                print(req_ex)
-
+        
     def get_gene_information(self,gene_of_interest):
         self.session.headers.update({"Authorization": "Bearer %s" % self.api_key})
         if gene_of_interest.__len__()!=1:
@@ -33,7 +37,8 @@ class GetInformationFromDiseaseGeneNet:
             response_gene = self.session.get(url_to_take,params={'source':'CURATED'})
             self.response_gene = response_gene
         else:
-            url_to_take = self.url+'/gda/gene/'+gene_of_interest
+            gene_of_interest_x=gene_of_interest[0]
+            url_to_take = self.url+'/gda/gene/'+gene_of_interest_x
             response_gene = self.session.get(url_to_take,params={'source':'CURATED'})
             self.response_gene = response_gene
 
@@ -55,9 +60,9 @@ class GetInformationFromDiseaseGeneNet:
         self.response_disease = response_disease
 
 
-    def format_information_to_gene_and_disease_only(self,information_to_take):
+    def format_information_to_gene_and_disease_only(self):
         keys_of_interest = ('gene_symbol','disease_name')
-        dictionary_from_json = information_to_take.json()
+        dictionary_from_json = self.response_gene.json()
         dataframe_disease_gene = pd.DataFrame.from_dict(dictionary_from_json)
         dataframe_disease_gene = dataframe_disease_gene.loc[:,keys_of_interest]
         type_interaction_disease = pd.DataFrame({'Type':['Gene-Disease' for x in range(dataframe_disease_gene.shape[0])]})
@@ -65,3 +70,4 @@ class GetInformationFromDiseaseGeneNet:
         type_interaction_disease.reset_index(drop=True, inplace=True)
         disease_association_gene_df = pd.concat([dataframe_disease_gene,type_interaction_disease],axis=1)
         self.disease_association_gene = disease_association_gene_df
+        self.session.close()

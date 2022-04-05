@@ -1,4 +1,5 @@
 import pandas as pd
+import matplotlib.pyplot as plt
 from APIforDiseaseGeneNet import GetInformationFromDiseaseGeneNet
 from APIforHumanProteinAtlas import GetInformationFromHumanProteinAtlas
 from APIForCTD import GetInformationFromCtd
@@ -52,15 +53,13 @@ class CreateGenomicInteractionNetwork:
         TFinteractions.get_tf_interactions_with_genes(genes)
         self.transcription_regulation=TFinteractions.tf_interactions
 
-    def find_disease_associated_with_genes(self):
-        connection_to_disgenenet = GetInformationFromDiseaseGeneNet()
+    def find_disease_associated_with_genes(self,account,password):
+        connection_to_disgenenet = GetInformationFromDiseaseGeneNet(account,password)
+        connection_to_disgenenet.check_data_base_connection()
         connection_to_disgenenet.get_gene_information(gene_of_interest = self.genes)
         connection_to_disgenenet.format_information_to_gene_and_disease_only()
         self.genes_with_their_disease = connection_to_disgenenet.disease_association_gene
 
-    def find_genes_associated_with_disease(self):
-        connect_to_disgenenet = GetInformationFromDiseaseGeneNet()
-        connect_to_disgenenet.disease_information(disease_of_interest='C0002395')
 
     def get_gene_gene_interactions(self):
         gene_gene_interacts = GetInformationFromOmniPathDB()
@@ -116,15 +115,13 @@ class CreateGenomicInteractionNetwork:
         cpg_gene_data_frame=self.set_column_names_on_data_frame(self.cpg_gene_network,column_names_to_set=column_name_pattern)
         gene_compound_data_frame=self.set_column_names_on_data_frame(self.compound_gene_interactions_report,column_names_to_set=column_name_pattern)
         transciptionfactors=self.set_column_names_on_data_frame(self.transcription_regulation,column_names_to_set=column_name_pattern)
-        #disease_gene_data_frame=self.set_column_names_on_data_frame(self.genes_with_their_disease,column_names_to_set=column_name_pattern)
+        disease_gene_data_frame=self.set_column_names_on_data_frame(self.genes_with_their_disease,column_names_to_set=column_name_pattern)
         gene_gene_data_frame=self.set_column_names_on_data_frame(self.gene_gene_molecular_interactions_df,column_names_to_set=column_name_pattern)
-        #network_data_frame=pd.concat([transciptionfactors,gene_compound_data_frame,cpg_gene_data_frame],axis=0)
-        network_data_frame=pd.concat([gene_gene_data_frame,transciptionfactors,gene_compound_data_frame,cpg_gene_data_frame],axis=0)
-        #network_data_frame = pd.concat([gene_gene_data_frame, transciptionfactors, cpg_gene_data_frame], axis=0)
+        network_data_frame=pd.concat([gene_gene_data_frame,transciptionfactors,gene_compound_data_frame,cpg_gene_data_frame,disease_gene_data_frame],axis=0)
         self.network_data_frame = network_data_frame
 
     def visualize_the_network(self):
+        fig=plt.figure(figsize=(12,8), dpi= 100, facecolor='w', edgecolor='k')
         Graph=nx.from_pandas_edgelist(df=self.network_data_frame,source='Interactor A',target='Interactor B', edge_attr='Type')
-        pos = nx.spring_layout(Graph)
-        nx.draw(Graph,with_labels=True)
+        nx.draw(Graph, with_labels=True, node_size=700, node_color="skyblue", node_shape="o", font_size=7, font_color="grey", width=2, edge_color="black")
 
