@@ -12,10 +12,17 @@ class GetInformationFromDiseaseGeneNet:
         self.disease_association_gene = None
 
     def check_data_base_connection(self):
-        resp = requests.get(self.url)
-        if resp.status_code != 200:
-            raise ApiErrpr('GET url'.format(resp.status_code))
-        self.resp_status_code = resp.status_code
+        session=requests.Session()
+        try:
+            response=session.post(self.url+'/auth/',data={'email':self.account,'password':self.password})
+            if response.status_code == 200:
+                json_response=response.json()
+                self.api_key = json_response.get('token')
+            else:
+                print(response.status_code)
+                print(response.text)
+        except requests.exceptions.RequestException as req_ex:
+               print(req_ex)
 
     def get_gene_information(self,gene_of_interest):
         if gene_of_interest.__len__()!=1:
