@@ -25,15 +25,16 @@ class GetInformationFromDiseaseGeneNet:
                print(req_ex)
 
     def get_gene_information(self,gene_of_interest):
+        self.session.headers.update({"Authorization": "Bearer %s" % self.api_key})
         if gene_of_interest.__len__()!=1:
             seperation_pattern = '%2C'
             gene_pattern_in_url = seperation_pattern.join(gene_of_interest)
-            url_to_take = self.url+'gene/'+gene_pattern_in_url+'?source=CURATED'
-            response_gene = requests.get(url_to_take)
+            url_to_take = self.url+'/gda/gene/'+gene_pattern_in_url
+            response_gene = self.session.get(url_to_take,params={'source':'CURATED'})
             self.response_gene = response_gene
         else:
-            url_to_take = self.url+'gene/'+gene_of_interest+'?source=CURATED'
-            response_gene = requests.get(url_to_take)
+            url_to_take = self.url+'/gda/gene/'+gene_of_interest
+            response_gene = self.session.get(url_to_take,params={'source':'CURATED'})
             self.response_gene = response_gene
 
     def disease_information(self,disease_of_interest):
